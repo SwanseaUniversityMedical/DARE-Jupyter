@@ -1,0 +1,9 @@
+Metadata-Version: 2.1
+Name: jupyter-cloudbeaver-proxy
+Version: 0.1
+Summary: Jupyter extension to proxy Cloud Beaver
+Home-page: https://github.com/SwanseaUniversityMedical/SeRP-JupyterImages/files/jupyter-cloudbeaver-proxy
+Author: Alex Lee
+Keywords: Jupyter
+Classifier: Framework :: Jupyter
+License-File: LICENSE

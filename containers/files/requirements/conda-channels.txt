@@ -1,0 +1,9 @@
+anaconda
+conda-forge
+r
+rapidsai
+nvidia
+esri
+pytorch
+bioconda
+plotly

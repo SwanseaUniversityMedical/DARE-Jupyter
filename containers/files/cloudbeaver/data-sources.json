@@ -1,0 +1,41 @@
+{
+        "folders": {},
+        "connections": {
+                "db2-184095a0591-533c5d9fa7cbf28": {
+                        "provider": "db2",
+                        "driver": "db2",
+                        "name": "SAIL DB2",
+                        "save-password": true,
+                        "show-system-objects": true,
+                        "read-only": false,
+                        "configuration": {
+                                "host": "sail.chi.swan.ac.uk",
+                                "port": "60070",
+                                "database": "PR_SAIL",
+                                "url": "jdbc:db2://sail.chi.swan.ac.uk:60070/PR_SAIL",
+                                "configurationType": "MANUAL",
+                                "type": "dev",
+                                "properties": {
+                                        "sslConnection": "true",
+                                        "sslTrustStoreLocation": "/db2-connection/dbks.jks",
+                                        "maxStatements": "50",
+                                        "loginTimeout": "60",
+                                        "retrieveMessagesFromServerOnGetMessage": "true",
+                                        "progressiveStreaming": "2"
+                                },
+                                "auth-model": "native"
+                        }
+                }
+        },
+        "connection-types": {
+                "dev": {
+                        "name": "Development",
+                        "color": "255,255,255",
+                        "description": "Regular development database",
+                        "auto-commit": true,
+                        "confirm-execute": false,
+                        "confirm-data-change": false,
+                        "auto-close-transactions": false
+                }
+        }
+}
