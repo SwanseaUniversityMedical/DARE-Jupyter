@@ -90,7 +90,8 @@ RUN curl -fOL -x "http://192.168.10.60:8080" https://github.com/coder/code-serve
 ### CERTIFICATES ###
 ####################
 COPY containers/files/scripts/addcerts.sh ./
-RUN chmod +x ./addcerts.sh
+RUN chmod +x ./addcerts.sh && \
+    chown -R $NB_USER: addcerts.sh
 
 COPY containers/files/scripts/ /tmp/install/scripts/
 RUN chmod +x /tmp/install/scripts/*.sh 
