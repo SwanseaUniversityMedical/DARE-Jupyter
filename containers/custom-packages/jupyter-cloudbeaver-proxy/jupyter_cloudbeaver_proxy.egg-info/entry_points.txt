@@ -1,0 +1,2 @@
+[jupyter_serverproxy_servers]
+cloudbeaver = jupyter_cloudbeaver_proxy:setup_cloudbeaver

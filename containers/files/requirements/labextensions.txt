@@ -1,0 +1,12 @@
+jupyterlab==4.0.3
+jupyterlab-theme-solarized-dark
+jupyterlab-midnightsea-theme
+jupyterlab-vim
+runplify
+jupyterlab-theme-onedark
+jupyterlab-ariakedark-theme
+jupyterlab-materialdarker-theme
+jupyterlab-empinken-extension
+jupyterlab-theme-solarized-dark
+seoul256-jupyterlab-theme
+jupyterlab-notify
