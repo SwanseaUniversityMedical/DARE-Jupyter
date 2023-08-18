@@ -1,0 +1,5 @@
+https://github.com/roobyz/sql-transformer/archive/refs/tags/v0.3.11.tar.gz
+https://github.com/regadas/sqltools-trino-driver/archive/refs/tags/v0.2.9.tar.gz
+https://github.com/sql-formatter-org/sql-formatter/archive/refs/tags/v12.2.4.tar.gz
+https://gitlab.com/rocket-boosters/trinols/-/archive/main/trinols-main.tar.gz
+https://api.github.com/repos/stubedston/vscode-align-text/tarball/main

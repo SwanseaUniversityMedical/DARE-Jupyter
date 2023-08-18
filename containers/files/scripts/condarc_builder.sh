@@ -22,3 +22,4 @@ if [ `conda config --system --get auto_activate_base | wc -l` == 0 ]; then
 fi
 
 conda config --system --prepend create_default_packages ipykernel
+conda config --system --prepend create_default_packages trino-python-client

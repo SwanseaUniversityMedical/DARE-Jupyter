@@ -4,11 +4,7 @@ Equinusocio.vsc-material-theme
 eamodio.gitlens
 PKief.material-icon-theme
 cmoog.sqlnotebook
-QuantifiedLeap.sql-transformer
 mtxr.sqltools
-regadas.sqltools-trino-driver
-inferrinizzard.prettier-sql-vscode
-rigogsilva.trinols
 GitHub.github-vscode-theme
 zhuangtongfa.Material-theme
 dracula-theme.theme-dracula
@@ -17,4 +13,3 @@ mhutchie.git-graph
 akamud.vscode-theme-onedark
 RDebugger.r-debugger
 REditorSupport.r
-stubedston.align-text

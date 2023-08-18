@@ -29,7 +29,6 @@ if [ -f ~/.bash_profile ]; then
 fi
 " >> $BASHRC_FILE
 
-
 ## reset .condarc to its essential config whilst preserving any user edits:
 ##   - point to nexus server for all channels
 ##   - define default channels
@@ -62,6 +61,33 @@ if [ `conda config --get auto_activate_base | wc -l` == 0 ]; then
 fi
 
 conda config --prepend create_default_packages ipykernel
+conda config --prepend create_default_packages trino-python-client
+
+# Make sure these settings are also applied to  the base conda env .condarc file
+
+BASE_CONDARC_FILE=/opt/conda/.condarc
+
+echo "replace the base config in $BASE_CONDARC_FILE"
+
+conda config --system --set env_prompt '({name}) '
+conda config --system --set auto_update_conda false
+conda config --system --set notify_outdated_conda false
+conda config --system --prepend envs_dirs ~/my-conda-envs/
+
+conda config --system --set channel_alias ${NEXUS_ADDR}/repository/
+
+while IFS= read -r line
+do
+    conda config --system --prepend default_channels ${NEXUS_ADDR}/repository/${line}
+    conda config --system --prepend channels ${line}
+done < "$INPUT"
+
+if [ `conda config --system --get auto_activate_base | wc -l` == 0 ]; then
+    conda config --system --set auto_activate_base true
+fi
+
+conda config --system --prepend create_default_packages ipykernel
+conda config --system --prepend create_default_packages trino-python-client
 
 
 ## setup default config for R:
