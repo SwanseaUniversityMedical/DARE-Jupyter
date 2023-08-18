@@ -1,0 +1,5 @@
+quantifiedleap.sql-transformer,https://marketplace.visualstudio.com/_apis/public/gallery/publishers/QuantifiedLeap/vsextensions/sql-transformer/0.3.17/vspackage
+regadas.sqltools-trino-driver,https://marketplace.visualstudio.com/_apis/public/gallery/publishers/regadas/vsextensions/sqltools-trino-driver/0.2.9/vspackage
+inferrinizzard.prettier-sql-vscode,https://marketplace.visualstudio.com/_apis/public/gallery/publishers/inferrinizzard/vsextensions/prettier-sql-vscode/1.6.0/vspackage
+rigogsilva.trinols,https://marketplace.visualstudio.com/_apis/public/gallery/publishers/rigogsilva/vsextensions/trinols/0.0.46/vspackage
+stubedston.align-text,https://marketplace.visualstudio.com/_apis/public/gallery/publishers/stubedston/vsextensions/align-text/0.1.0/vspackage
