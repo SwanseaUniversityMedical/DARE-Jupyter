@@ -61,47 +61,34 @@ if [ `conda config --get auto_activate_base | wc -l` == 0 ]; then
 fi
 
 conda config --prepend create_default_packages ipykernel
+conda config --prepend create_default_packages trino-python-client
 
-# Copy a replacement for the base conda env .condarc file to the correct place
+# Make sure these settings are also applied to  the base conda env .condarc file
 
 BASE_CONDARC_FILE=/opt/conda/.condarc
 
 echo "replace the base config in $BASE_CONDARC_FILE"
 
-cat << EOF > $BASE_CONDARC_FILE
-# Conda configuration see https://conda.io/projects/conda/en/latest/configuration.html
+conda config --system --set env_prompt '({name}) '
+conda config --system --set auto_update_conda false
+conda config --system --set notify_outdated_conda false
+conda config --system --prepend envs_dirs ~/my-conda-envs/
 
-auto_update_conda: false
-show_channel_urls: true
-channels:
-  - plotly
-  - bioconda
-  - pytorch
-  - esri
-  - nvidia
-  - rapidsai
-  - r
-  - conda-forge
-  - anaconda
-env_prompt: '({name}) '
-notify_outdated_conda: false
-envs_dirs:
-  - /home/jovyan/my-conda-envs/
-channel_alias: ${NEXUS_ADDR}/repository/
-default_channels:
-  - ${NEXUS_ADDR}/repository/plotly
-  - ${NEXUS_ADDR}/repository/bioconda
-  - ${NEXUS_ADDR}/repository/pytorch
-  - ${NEXUS_ADDR}/repository/esri
-  - ${NEXUS_ADDR}/repository/nvidia
-  - ${NEXUS_ADDR}/repository/rapidsai
-  - ${NEXUS_ADDR}/repository/r
-  - ${NEXUS_ADDR}/repository/conda-forge
-  - ${NEXUS_ADDR}/repository/anaconda
-auto_activate_base: true
-create_default_packages:
-  - ipykernel
-EOF
+conda config --system --set channel_alias ${NEXUS_ADDR}/repository/
+
+while IFS= read -r line
+do
+    conda config --system --prepend default_channels ${NEXUS_ADDR}/repository/${line}
+    conda config --system --prepend channels ${line}
+done < "$INPUT"
+
+if [ `conda config --system --get auto_activate_base | wc -l` == 0 ]; then
+    conda config --system --set auto_activate_base true
+fi
+
+conda config --system --prepend create_default_packages ipykernel
+conda config --system --prepend create_default_packages trino-python-client
+
 
 ## setup default config for R:
 ##   - use nexus server as the package repo
