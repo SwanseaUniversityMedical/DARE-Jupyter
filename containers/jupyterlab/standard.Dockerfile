@@ -153,3 +153,4 @@ RUN jupyter lab build --dev-build=False --minimize=True && \
 WORKDIR "/home/${NB_USER}"
 
 ENV XDG_DATA_HOME=
+
