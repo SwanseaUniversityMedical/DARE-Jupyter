@@ -136,7 +136,7 @@ RUN pip install jupyter_cloudbeaver_proxy-0.1-py3-none-any.whl --no-cache-dir &&
 
 # JUPYTERLAB AND VSCODE EXTENSIONS
 WORKDIR /tmp/install/scripts/
-RUN ./vsextensions.sh && ./condarc_builder.sh
+RUN ./vsextensions.sh 
 
 # SESSION STARTUP
 RUN mv /tmp/install/scripts/session_startup.sh /usr/local/bin/start-notebook.d/session_startup.sh && \

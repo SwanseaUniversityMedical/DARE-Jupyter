@@ -29,7 +29,6 @@ if [ -f ~/.bash_profile ]; then
 fi
 " >> $BASHRC_FILE
 
-
 ## reset .condarc to its essential config whilst preserving any user edits:
 ##   - point to nexus server for all channels
 ##   - define default channels
@@ -63,6 +62,46 @@ fi
 
 conda config --prepend create_default_packages ipykernel
 
+# Copy a replacement for the base conda env .condarc file to the correct place
+
+BASE_CONDARC_FILE=/opt/conda/.condarc
+
+echo "replace the base config in $BASE_CONDARC_FILE"
+
+cat << EOF > $BASE_CONDARC_FILE
+# Conda configuration see https://conda.io/projects/conda/en/latest/configuration.html
+
+auto_update_conda: false
+show_channel_urls: true
+channels:
+  - plotly
+  - bioconda
+  - pytorch
+  - esri
+  - nvidia
+  - rapidsai
+  - r
+  - conda-forge
+  - anaconda
+env_prompt: '({name}) '
+notify_outdated_conda: false
+envs_dirs:
+  - /home/jovyan/my-conda-envs/
+channel_alias: ${NEXUS_ADDR}/repository/
+default_channels:
+  - ${NEXUS_ADDR}/repository/plotly
+  - ${NEXUS_ADDR}/repository/bioconda
+  - ${NEXUS_ADDR}/repository/pytorch
+  - ${NEXUS_ADDR}/repository/esri
+  - ${NEXUS_ADDR}/repository/nvidia
+  - ${NEXUS_ADDR}/repository/rapidsai
+  - ${NEXUS_ADDR}/repository/r
+  - ${NEXUS_ADDR}/repository/conda-forge
+  - ${NEXUS_ADDR}/repository/anaconda
+auto_activate_base: true
+create_default_packages:
+  - ipykernel
+EOF
 
 ## setup default config for R:
 ##   - use nexus server as the package repo
