@@ -58,7 +58,7 @@ jobs:
         python -m pip install --user --upgrade build &&
         python -m build --outdir ./dist ./containers/custom-packages/jupyter-cloudbeaver-proxy &&
         python -m build --outdir ./dist ./containers/custom-packages/jupyter-rsession-proxy &&
-        docker build -t $IMAGE -f containers/jupyter/Dockerfile .
+        docker build -t $IMAGE -f containers/jupyterhub/Dockerfile .
       test-command: |
         echo '0'
     secrets:
