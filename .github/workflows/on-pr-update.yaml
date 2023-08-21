@@ -36,7 +36,7 @@ jobs:
       slack-token: ${{ secrets.SLACK_TOKEN }}
       github-app-private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
-  build-container:
+  build-container-jupyterhub:
     # Build the container and push it as :pr-42 and :pr-42-fe45b3h
     needs:
       - slack
@@ -44,7 +44,37 @@ jobs:
     if: fromJSON(needs.changes.outputs.changes).container == 'true'
     uses: SwanseaUniversityMedical/workflows/.github/workflows/on-pr-update-container.yaml@v1.0.0
     with:
-      job-name: container
+      job-name: build-container-jupyterhub
+      container-registry: ${{ vars.HARBOR_REGISTRY }}
+      container-registry-user: ${{ vars.HARBOR_USER }}
+      container-registry-project: ${{ vars.HARBOR_PROJECT }}
+      container-registry-repo: jupyterhub
+      github-app-id: ${{ vars.APP_ID }}
+      slack-channel: ${{ vars.SLACK_CHANNEL }}
+      slack-thread: ${{ needs.slack.outputs.thread }}
+      build-command: |
+        sudo apt update &&
+        sudo apt install python3.8-venv &&
+        python -m pip install --user --upgrade build &&
+        python -m build --outdir ./dist ./containers/custom-packages/jupyter-cloudbeaver-proxy &&
+        python -m build --outdir ./dist ./containers/custom-packages/jupyter-rsession-proxy &&
+        docker build -t $IMAGE -f containers/jupyterhub/Dockerfile .
+      test-command: |
+        echo '0'
+    secrets:
+      container-registry-token: ${{ secrets.HARBOR_TOKEN }}
+      github-app-private-key: ${{ secrets.APP_PRIVATE_KEY }}
+      slack-token: ${{ secrets.SLACK_TOKEN }}
+
+  build-container-jupyterlab-standard:
+    # Build the container and push it as :pr-42 and :pr-42-fe45b3h
+    needs:
+      - slack
+      - changes
+    if: fromJSON(needs.changes.outputs.changes).container == 'true'
+    uses: SwanseaUniversityMedical/workflows/.github/workflows/on-pr-update-container.yaml@v1.0.0
+    with:
+      job-name: build-container-jupyterhub
       container-registry: ${{ vars.HARBOR_REGISTRY }}
       container-registry-user: ${{ vars.HARBOR_USER }}
       container-registry-project: ${{ vars.HARBOR_PROJECT }}
@@ -58,7 +88,7 @@ jobs:
         python -m pip install --user --upgrade build &&
         python -m build --outdir ./dist ./containers/custom-packages/jupyter-cloudbeaver-proxy &&
         python -m build --outdir ./dist ./containers/custom-packages/jupyter-rsession-proxy &&
-        docker build -t $IMAGE -f containers/jupyterhub/Dockerfile .
+        docker build -t $IMAGE -f containers/jupyterlab/standard.Dockerfile .
       test-command: |
         echo '0'
     secrets:
@@ -97,7 +127,8 @@ jobs:
     needs:
       - slack
       - changes
-      - build-container
+      - build-container-jupyterhub
+      - build-container-jupyterlab-standard
       - build-pr-chart
     uses: SwanseaUniversityMedical/workflows/.github/workflows/slack-pr-thread.yaml@v1.0.0
     if: always()
