@@ -53,6 +53,8 @@ jobs:
       slack-channel: ${{ vars.SLACK_CHANNEL }}
       slack-thread: ${{ needs.slack.outputs.thread }}
       build-command: |
+        sudo apt update &&
+        sudo apt install python3.8-venv &&
         python -m pip install --user --upgrade build &&
         python -m build --outdir ./dist ./containers/custom-packages/jupyter-cloudbeaver-proxy &&
         python -m build --outdir ./dist ./containers/custom-packages/jupyter-rsession-proxy &&
