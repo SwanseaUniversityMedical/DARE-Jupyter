@@ -36,7 +36,7 @@ jobs:
       slack-token: ${{ secrets.SLACK_TOKEN }}
       github-app-private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
-  build-container-jupyterhub:
+  jupyterhub-container:
     # Build the container and push it as :pr-42 and :pr-42-fe45b3h
     needs:
       - slack
@@ -44,7 +44,7 @@ jobs:
     if: fromJSON(needs.changes.outputs.changes).container == 'true'
     uses: SwanseaUniversityMedical/workflows/.github/workflows/on-pr-update-container.yaml@v1.0.0
     with:
-      job-name: build-container-jupyterhub
+      job-name: jupyterhub-container
       container-registry: ${{ vars.HARBOR_REGISTRY }}
       container-registry-user: ${{ vars.HARBOR_USER }}
       container-registry-project: ${{ vars.HARBOR_PROJECT }}
@@ -66,7 +66,7 @@ jobs:
       github-app-private-key: ${{ secrets.APP_PRIVATE_KEY }}
       slack-token: ${{ secrets.SLACK_TOKEN }}
 
-  build-container-jupyterlab-standard:
+  jupyterlab-standard-container:
     # Build the container and push it as :pr-42 and :pr-42-fe45b3h
     needs:
       - slack
@@ -74,7 +74,7 @@ jobs:
     if: fromJSON(needs.changes.outputs.changes).container == 'true'
     uses: SwanseaUniversityMedical/workflows/.github/workflows/on-pr-update-container.yaml@v1.0.0
     with:
-      job-name: build-container-jupyterlab-standard
+      job-name: jupyterlab-standard-container
       container-registry: ${{ vars.HARBOR_REGISTRY }}
       container-registry-user: ${{ vars.HARBOR_USER }}
       container-registry-project: ${{ vars.HARBOR_PROJECT }}
@@ -96,7 +96,7 @@ jobs:
       github-app-private-key: ${{ secrets.APP_PRIVATE_KEY }}
       slack-token: ${{ secrets.SLACK_TOKEN }}
 
-#  build-container-jupyterlab-gpu:
+#  jupyterlab-gpu-container:
 #    # Build the container and push it as :pr-42 and :pr-42-fe45b3h
 #    needs:
 #      - slack
@@ -104,7 +104,7 @@ jobs:
 #    if: fromJSON(needs.changes.outputs.changes).container == 'true'
 #    uses: SwanseaUniversityMedical/workflows/.github/workflows/on-pr-update-container.yaml@v1.0.0
 #    with:
-#      job-name: build-container-jupyterlab-gpu
+#      job-name: jupyterlab-gpu-container
 #      container-registry: ${{ vars.HARBOR_REGISTRY }}
 #      container-registry-user: ${{ vars.HARBOR_USER }}
 #      container-registry-project: ${{ vars.HARBOR_PROJECT }}
@@ -126,7 +126,7 @@ jobs:
 #      github-app-private-key: ${{ secrets.APP_PRIVATE_KEY }}
 #      slack-token: ${{ secrets.SLACK_TOKEN }}
 
-#  build-container-jupyterlab-sparkR:
+#  jupyterlab-sparkR-container:
 #    # Build the container and push it as :pr-42 and :pr-42-fe45b3h
 #    needs:
 #      - slack
@@ -134,7 +134,7 @@ jobs:
 #    if: fromJSON(needs.changes.outputs.changes).container == 'true'
 #    uses: SwanseaUniversityMedical/workflows/.github/workflows/on-pr-update-container.yaml@v1.0.0
 #    with:
-#      job-name: build-container-jupyterlab-sparkR
+#      job-name: jupyterlab-sparkR-container
 #      container-registry: ${{ vars.HARBOR_REGISTRY }}
 #      container-registry-user: ${{ vars.HARBOR_USER }}
 #      container-registry-project: ${{ vars.HARBOR_PROJECT }}
@@ -157,7 +157,7 @@ jobs:
 #      slack-token: ${{ secrets.SLACK_TOKEN }}
 
 
-  build-pr-chart:
+  chart:
     # Build the chart and push it as :pr-42 and :pr-42-fe45b3h
     needs:
       - slack
@@ -187,11 +187,11 @@ jobs:
     needs:
       - slack
       - changes
-      - build-container-jupyterhub
-      - build-container-jupyterlab-standard
-#      - build-container-jupyterlab-gpu
-#      - build-container-jupyterlab-sparkR
-      - build-pr-chart
+      - jupyterhub-container
+      - jupyterlab-standard-container
+#      - jupyterlab-gpu-container
+#      - jupyterlab-sparkR-container
+      - chart
     uses: SwanseaUniversityMedical/workflows/.github/workflows/slack-pr-thread.yaml@v1.0.0
     if: always()
     with:
