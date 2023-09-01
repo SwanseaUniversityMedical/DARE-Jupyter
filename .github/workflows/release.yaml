@@ -29,11 +29,11 @@ jobs:
       github-app-id: ${{ vars.APP_ID }}
       filters: |
         jupyter-container:
-          - './.github/workflows/on-pr-update.yaml'
+          - './.github/workflows/release.yaml'
           - 'containers/jupyterlab/**'
           - 'plugins/**'
         chart:
-        - './.github/workflows/on-pr-update.yaml'
+        - './.github/workflows/release.yaml'
         - 'charts/**'
 
     secrets:
