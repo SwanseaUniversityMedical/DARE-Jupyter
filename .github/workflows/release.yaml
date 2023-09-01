@@ -33,8 +33,8 @@ jobs:
           - 'containers/jupyterlab/**'
           - 'plugins/**'
         chart:
-        - './.github/workflows/release.yaml'
-        - 'charts/**'
+          - './.github/workflows/release.yaml'
+          - 'charts/**'
 
     secrets:
       slack-token: ${{ secrets.SLACK_TOKEN }}
