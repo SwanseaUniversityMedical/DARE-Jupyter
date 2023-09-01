@@ -100,7 +100,7 @@ jobs:
       slack-thread: ${{ needs.slack.outputs.thread }}
       chart: charts/**
       test-command: |
-        helm template $CHART --values charts/guacamole/values.yaml
+        helm template $CHART --values charts/jupyter/values.yaml
       release-branches: 'ci/create-new-release-ci-using-reusable-workflows'
     secrets:
       chart-registry-token: ${{ secrets.HARBOR_TOKEN }}
