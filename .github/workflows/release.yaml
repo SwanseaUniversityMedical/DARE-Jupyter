@@ -45,7 +45,7 @@ jobs:
   ######################################################################################################################
 
   jupyter-container:
-    # Build the DARE Jupyterlab container and push it as :rc-1.0.0
+    # Build the DARE Jupyter container and push it as :rc-1.0.0
     needs:
       - slack
       - changes
