@@ -59,8 +59,6 @@ jobs:
         python -m build --outdir ./dist ./containers/custom-packages/jupyter-cloudbeaver-proxy &&
         python -m build --outdir ./dist ./containers/custom-packages/jupyter-rsession-proxy &&
         docker build -t $IMAGE -f containers/jupyterhub/Dockerfile .
-      test-command: |
-        echo '0'
     secrets:
       container-registry-token: ${{ secrets.HARBOR_TOKEN }}
       github-app-private-key: ${{ secrets.APP_PRIVATE_KEY }}
@@ -89,8 +87,6 @@ jobs:
         python -m build --outdir ./dist ./containers/custom-packages/jupyter-cloudbeaver-proxy &&
         python -m build --outdir ./dist ./containers/custom-packages/jupyter-rsession-proxy &&
         docker build -t $IMAGE -f containers/jupyterlab/standard.Dockerfile .
-      test-command: |
-        echo '0'
     secrets:
       container-registry-token: ${{ secrets.HARBOR_TOKEN }}
       github-app-private-key: ${{ secrets.APP_PRIVATE_KEY }}
@@ -119,8 +115,6 @@ jobs:
 #        python -m build --outdir ./dist ./containers/custom-packages/jupyter-cloudbeaver-proxy &&
 #        python -m build --outdir ./dist ./containers/custom-packages/jupyter-rsession-proxy &&
 #        docker build -t $IMAGE -f containers/jupyterlab/gpu.Dockerfile .
-#      test-command: |
-#        echo '0'
 #    secrets:
 #      container-registry-token: ${{ secrets.HARBOR_TOKEN }}
 #      github-app-private-key: ${{ secrets.APP_PRIVATE_KEY }}
@@ -149,8 +143,6 @@ jobs:
 #        python -m build --outdir ./dist ./containers/custom-packages/jupyter-cloudbeaver-proxy &&
 #        python -m build --outdir ./dist ./containers/custom-packages/jupyter-rsession-proxy &&
 #        docker build -t $IMAGE -f containers/jupyterlab/sparkR.Dockerfile .
-#      test-command: |
-#        echo '0'
 #    secrets:
 #      container-registry-token: ${{ secrets.HARBOR_TOKEN }}
 #      github-app-private-key: ${{ secrets.APP_PRIVATE_KEY }}
