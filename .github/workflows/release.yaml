@@ -68,8 +68,6 @@ jobs:
         python -m build --outdir ./dist ./containers/custom-packages/jupyter-cloudbeaver-proxy &&
         python -m build --outdir ./dist ./containers/custom-packages/jupyter-rsession-proxy &&
         docker build -t $IMAGE -f containers/jupyterlab/standard.Dockerfile .
-      test-command: |
-        echo '0'
     secrets:
       container-registry-token: ${{ secrets.HARBOR_TOKEN }}
       slack-token: ${{ secrets.SLACK_TOKEN }}
