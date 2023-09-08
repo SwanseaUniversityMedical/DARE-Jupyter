@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - refactor/patch-pr-and-release-ci-to-remove-tests-if-they-dont-have-them
 
 jobs:
 
@@ -58,7 +59,7 @@ jobs:
       container-registry-user: ${{ vars.HARBOR_USER }}
       container-registry-project: ${{ vars.HARBOR_PROJECT }}
       container-registry-repo: ${{ vars.HARBOR_REPO }}
-      release-tag-format: 'DARE-Jupyter-Container-${version}'
+      release-tag-format: 'TEST-DARE-Jupyter-Container-${version}'
       slack-channel: ${{ vars.SLACK_CHANNEL }}
       slack-thread: ${{ needs.slack.outputs.thread }}
       build-command: |
@@ -68,6 +69,7 @@ jobs:
         python -m build --outdir ./dist ./containers/custom-packages/jupyter-cloudbeaver-proxy &&
         python -m build --outdir ./dist ./containers/custom-packages/jupyter-rsession-proxy &&
         docker build -t $IMAGE -f containers/jupyterlab/standard.Dockerfile .
+      release-branches: refactor/patch-pr-and-release-ci-to-remove-tests-if-they-dont-have-them
     secrets:
       container-registry-token: ${{ secrets.HARBOR_TOKEN }}
       slack-token: ${{ secrets.SLACK_TOKEN }}
@@ -91,13 +93,14 @@ jobs:
       chart-registry-user: ${{ vars.HARBOR_USER }}
       chart-registry-project: ${{ vars.HARBOR_PROJECT }}
       chart-registry-repo: ${{ vars.HARBOR_REPO }}
-      release-tag-format: 'DARE-Jupyter-Helm-${version}'
+      release-tag-format: 'TEST-DARE-Jupyter-Helm-${version}'
       github-app-id: ${{ vars.APP_ID }}
       slack-channel: ${{ vars.SLACK_CHANNEL }}
       slack-thread: ${{ needs.slack.outputs.thread }}
       chart: charts/**
       test-command: |
         helm template $CHART --values charts/jupyter/values.yaml
+      release-branches: refactor/patch-pr-and-release-ci-to-remove-tests-if-they-dont-have-them
     secrets:
       chart-registry-token: ${{ secrets.HARBOR_TOKEN }}
       github-app-private-key: ${{ secrets.APP_PRIVATE_KEY }}
