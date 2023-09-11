@@ -30,7 +30,7 @@ jobs:
       filters: |
         jupyter-container:
           - './.github/workflows/release.yaml'
-          - 'containers/jupyterlab/**'
+          - 'containers/**'
           - 'plugins/**'
         chart:
           - './.github/workflows/release.yaml'
