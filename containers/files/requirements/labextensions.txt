@@ -1,7 +1,6 @@
 jupyterlab==4.0.3
 jupyterlab-theme-solarized-dark
 jupyterlab-midnightsea-theme
-jupyterlab-vim
 runplify
 jupyterlab-theme-onedark
 jupyterlab-ariakedark-theme
