@@ -3,7 +3,7 @@ jupyter:
 
   image:
     repository: harbor.ukserp.ac.uk/dare/jupyter
-    tag: 1.2.0
+    tag: 1.2.1
     pullPolicy: IfNotPresent
     pullSecret: ""
     uid: 1001
