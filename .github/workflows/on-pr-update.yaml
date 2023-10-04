@@ -18,7 +18,7 @@ concurrency:
 jobs:
 
   slack:
-    # Open a new PR thread on Slack for this CI run.
+    # Open a new PR thread on Slack for this CI run. 
     uses: SwanseaUniversityMedical/workflows/.github/workflows/slack-pr-thread.yaml@v3.0.0
     with:
       slack-channel: ${{ vars.SLACK_CHANNEL }}
