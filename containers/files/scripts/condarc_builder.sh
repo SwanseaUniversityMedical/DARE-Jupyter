@@ -4,6 +4,7 @@ NEXUS_ADDR="${NEXUS_HTTP_SCHEME}://${NEXUS_PROXY_ADDR}"
 INPUT="/tmp/install/requirements/conda-channels.txt"
 
 # this script generates a set of correct .condarc configs for the channels given in files/requirements/conda-channels.txt
+conda config --system --set solver libmamba
 conda config --system --set env_prompt '({name}) '
 conda config --system --set auto_update_conda false
 conda config --system --set notify_outdated_conda false

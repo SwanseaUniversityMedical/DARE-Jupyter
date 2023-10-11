@@ -1,4 +1,4 @@
-FROM jupyter/scipy-notebook:lab-4.0.3
+FROM jupyter/scipy-notebook:lab-4.0.6
 
 ENV PATH=$PATH:/usr/lib/rstudio-server/bin
 ENV XDG_DATA_HOME=/tmpvscode
@@ -106,7 +106,7 @@ COPY containers/files/requirements/ /tmp/install/requirements/
 RUN ls -a /tmp/install/requirements
 
 # CONDA BASE ADDITIONS
-RUN conda install --yes -n base conda-libmamba-solver && \
+RUN conda install --yes -n base conda-libmamba-solver=23.7.0 && \
     conda config --set solver libmamba && \
     mamba env update --name base --file /tmp/install/requirements/conda-base.yaml && \
     mamba clean --all -f -y && \

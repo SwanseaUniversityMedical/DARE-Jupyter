@@ -3,7 +3,8 @@ channels:
   - conda-forge
   - anaconda
 dependencies:
-  - jupyterlab==4.0.3
+  - jupyterlab==4.0.6
+  - conda-libmamba-solver=23.7.0
   - lazygit 
   - sqlalchemy 
   - jupyter-resource-usage 
