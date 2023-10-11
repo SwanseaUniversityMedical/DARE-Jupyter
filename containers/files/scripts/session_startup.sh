@@ -154,3 +154,9 @@ fi
 
 echo "copying vscode extensions to $VSCODE_EXT_PATH"
 cp -rf /tmpvscode/code-server/extensions/* ~/.local/share/code-server/extensions/
+
+## move the example notebook to the user area
+cp -r /tmp/helpful-files /home/jovyan
+
+## add any mounted certificates to the cert stores
+./tmp/install/scripts/addcerts.sh
