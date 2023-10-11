@@ -19,14 +19,22 @@ RUN touch /etc/pip.conf && \
     mkdir /tmpvscode && \
     mkdir -p /tmp/install/requirements && \
     mkdir -p /tmp/install/scripts && \
-    mkdir -p /usr/local/bin/start-notebook.d/
+    mkdir -p /usr/local/bin/start-notebook.d/ && \
+    mkdir -p /tmp/helpful-files
 
 # THEN CHOWN
 RUN chown -R $NB_USER: /etc/pip.conf && \
     chown -R $NB_USER: /usr/local/bin/start-notebook.d/ && \
     chown -R $NB_USER: /tmpvscode && \
     chown -R $NB_USER: /tmp/install/scripts/ && \
+    chown -R $NB_USER: /certs && \
+    chown -R $NB_USER: /tmp/helpful-files && \
     echo source /home/jovyan/.bashrc >> /etc/profile
+
+# NB_USER also requires chown permissions on certificate-related folders
+# so we can trust any mounted certs on startup
+RUN chown -R $NB_USER: /usr/local/share/ca-certificates/ && \
+    chown -R $NB_USER: /etc/ssl/certs/
 
 # Install necessary packages for addons
 RUN apt-get update && apt-get install -yq \
@@ -58,6 +66,7 @@ COPY containers/files/cloudbeaver/run-server.sh /opt/cloudbeaver/run-server.sh
 
 RUN chmod +x /opt/cloudbeaver/run-server.sh && \
     chown -R $NB_USER: /opt/cloudbeaver && \
+    chown -R $NB_USER: /opt/java/openjdk/lib/security/cacerts && \
     mkdir -p /opt/cloudbeaver/workspace/user-projects/cbadmin/.dbeaver
 
 # !!! MAKE THIS SOMETHING YOU MOUNT IN THE CHART
@@ -138,9 +147,13 @@ RUN pip install jupyter_cloudbeaver_proxy-0.1-py3-none-any.whl --no-cache-dir &&
 WORKDIR /tmp/install/scripts/
 RUN ./vsextensions.sh 
 
+# TUTORIAL NOTEBOOKS
+COPY containers/files/examples/*.ipynb /tmp/helpful-files/
+
 # SESSION STARTUP
 RUN mv /tmp/install/scripts/session_startup.sh /usr/local/bin/start-notebook.d/session_startup.sh && \
-    mv /tmp/install/scripts/condarc_builder.sh /usr/local/bin/start-notebook.d/condarc_builder.sh
+    mv /tmp/install/scripts/condarc_builder.sh /usr/local/bin/start-notebook.d/condarc_builder.sh && \
+    mv /tmp/install/scripts/addcerts.sh /usr/local/bin/start-notebook.d/addcerts.sh
 
 # REBUILD JUPYTER AND CLEANUP
 RUN jupyter lab build --dev-build=False --minimize=True && \
