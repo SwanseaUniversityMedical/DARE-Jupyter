@@ -46,6 +46,7 @@ INPUT="/tmp/install/requirements/conda-channels.txt"
 conda config --set env_prompt '({name}) '
 conda config --set auto_update_conda false
 conda config --set notify_outdated_conda false
+conda config --set solver libmamba
 conda config --prepend envs_dirs ~/my-conda-envs/
 
 conda config --set channel_alias ${NEXUS_ADDR}/repository/
@@ -85,6 +86,7 @@ channels:
   - conda-forge
   - anaconda
 env_prompt: '({name}) '
+solver: libmamba
 notify_outdated_conda: false
 envs_dirs:
   - /home/jovyan/my-conda-envs/
@@ -152,3 +154,9 @@ fi
 
 echo "copying vscode extensions to $VSCODE_EXT_PATH"
 cp -rf /tmpvscode/code-server/extensions/* ~/.local/share/code-server/extensions/
+
+## move the example notebook to the user area
+cp -r /tmp/helpful-files /home/jovyan
+
+## add any mounted certificates to the cert stores
+./tmp/install/scripts/addcerts.sh
