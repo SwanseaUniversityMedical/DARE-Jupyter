@@ -159,4 +159,4 @@ cp -rf /tmpvscode/code-server/extensions/* ~/.local/share/code-server/extensions
 cp -r /tmp/helpful-files /home/jovyan
 
 ## add any mounted certificates to the cert stores
-./tmp/install/scripts/addcerts.sh
+./addcerts.sh
