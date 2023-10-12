@@ -153,7 +153,7 @@ COPY containers/files/examples/*.ipynb /tmp/helpful-files/
 # SESSION STARTUP
 RUN mv /tmp/install/scripts/session_startup.sh /usr/local/bin/start-notebook.d/session_startup.sh && \
     mv /tmp/install/scripts/condarc_builder.sh /usr/local/bin/start-notebook.d/condarc_builder.sh && \
-    mv /tmp/install/scripts/addcerts.sh /usr/local/bin/start-notebook.d/addcerts.sh
+    cp /tmp/install/scripts/addcerts.sh /usr/local/bin/start-notebook.d/addcerts.sh
 
 # REBUILD JUPYTER AND CLEANUP
 RUN jupyter lab build --dev-build=False --minimize=True && \
