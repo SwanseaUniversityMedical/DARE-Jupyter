@@ -33,9 +33,6 @@ jobs:
           - 'containers/jupyterhub/**'
           - 'containers/custom-packages/**'
           - 'containers/files/**'
-        chart:
-        - './.github/workflows/on-pr-update.yaml'
-        - 'charts/**'
 
     secrets:
       slack-token: ${{ secrets.SLACK_TOKEN }}
