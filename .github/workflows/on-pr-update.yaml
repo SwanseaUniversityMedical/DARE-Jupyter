@@ -23,12 +23,16 @@ jobs:
     with:
       slack-channel: ${{ vars.SLACK_CHANNEL }}
       filters: |
-        container:
+        jupyter-container:
           - './.github/workflows/on-pr-update.yaml'
-          - 'containers/**'
-        chart:
-        - './.github/workflows/on-pr-update.yaml'
-        - 'charts/**'
+          - 'containers/jupyterlab/**'
+          - 'containers/custom-packages/**'
+          - 'containers/files/**'
+        jupyterhub-container:
+          - './.github/workflows/on-pr-update.yaml'
+          - 'containers/jupyterhub/**'
+          - 'containers/custom-packages/**'
+          - 'containers/files/**'
 
     secrets:
       slack-token: ${{ secrets.SLACK_TOKEN }}
@@ -36,7 +40,7 @@ jobs:
   jupyterhub-container:
     # Build the container and push it as :pr-42 and :pr-42-fe45b3h
     needs: changes
-    if: fromJSON(needs.changes.outputs.changes).container == 'true'
+    if: fromJSON(needs.changes.outputs.changes).jupyterhub-container == 'true'
     uses: SwanseaUniversityMedical/workflows/.github/workflows/on-pr-update-container.yaml@v4.3.0
     with:
       job-name: jupyterhub-container
@@ -59,14 +63,14 @@ jobs:
   jupyterlab-standard-container:
     # Build the container and push it as :pr-42 and :pr-42-fe45b3h
     needs: changes
-    if: fromJSON(needs.changes.outputs.changes).container == 'true'
+    if: fromJSON(needs.changes.outputs.changes).jupyter-container == 'true'
     uses: SwanseaUniversityMedical/workflows/.github/workflows/on-pr-update-container.yaml@v4.3.0
     with:
       job-name: jupyterlab-standard-container
       container-registry: ${{ vars.HARBOR_REGISTRY }}
       container-registry-user: ${{ vars.HARBOR_USER }}
       container-registry-project: ${{ vars.HARBOR_PROJECT }}
-      container-registry-repo: ${{ vars.HARBOR_REPO }}
+      container-registry-repo: jupyter
       slack-channel: ${{ vars.SLACK_CHANNEL }}
       build-command: |
         sudo apt update &&
@@ -77,23 +81,4 @@ jobs:
         docker build -t $IMAGE -f containers/jupyterlab/standard.Dockerfile .
     secrets:
       container-registry-token: ${{ secrets.HARBOR_TOKEN }}
-      slack-token: ${{ secrets.SLACK_TOKEN }}
-
-  chart:
-    # Build the chart and push it as :pr-42 and :pr-42-fe45b3h
-    needs: changes
-    if: fromJSON(needs.changes.outputs.changes).chart == 'true'
-    uses: SwanseaUniversityMedical/workflows/.github/workflows/on-pr-update-chart.yaml@v4.3.0
-    with:
-      job-name: chart
-      chart: charts/**
-      chart-registry: ${{ vars.HARBOR_REGISTRY }}
-      chart-registry-user: ${{ vars.HARBOR_USER }}
-      chart-registry-project: ${{ vars.HARBOR_PROJECT }}
-      chart-registry-repo: ${{ vars.HARBOR_REPO }}
-      slack-channel: ${{ vars.SLACK_CHANNEL }}
-      test-command: |
-        helm template $CHART --values charts/jupyter/values.yaml
-    secrets:
-      chart-registry-token: ${{ secrets.HARBOR_TOKEN }}
       slack-token: ${{ secrets.SLACK_TOKEN }}
