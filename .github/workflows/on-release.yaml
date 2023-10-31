@@ -24,18 +24,20 @@ jobs:
       filters: |
         jupyter-container:
           - './.github/workflows/on-release.yaml'
-          - 'containers/**'
-          - 'plugins/**'
+          - 'containers/jupyterlab/**'
+          - 'containers/custom-packages/**'
+          - 'containers/files/**'
+        jupyterhub-container:
+          - './.github/workflows/on-release.yaml'
+          - 'containers/jupyterhub/**'
+          - 'containers/custom-packages/**'
+          - 'containers/files/**'
         chart:
           - './.github/workflows/on-release.yaml'
           - 'charts/**'
 
     secrets:
       slack-token: ${{ secrets.SLACK_TOKEN }}
-
-  ######################################################################################################################
-  # Container Tasks
-  ######################################################################################################################
 
   jupyter-container:
     # Build the DARE Jupyter container and push it as :rc-1.0.0
@@ -47,7 +49,7 @@ jobs:
       container-registry: ${{ vars.HARBOR_REGISTRY }}
       container-registry-user: ${{ vars.HARBOR_USER }}
       container-registry-project: ${{ vars.HARBOR_PROJECT }}
-      container-registry-repo: ${{ vars.HARBOR_REPO }}
+      container-registry-repo: jupyter
       release-tag-format: 'DARE-Jupyter-Container-${version}'
       slack-channel: ${{ vars.SLACK_CHANNEL }}
       build-command: |
@@ -61,9 +63,29 @@ jobs:
       container-registry-token: ${{ secrets.HARBOR_TOKEN }}
       slack-token: ${{ secrets.SLACK_TOKEN }}
 
-  ######################################################################################################################
-  # Chart Tasks
-  ######################################################################################################################
+  jupyterhub-container:
+    # Build the DARE Jupyter container and push it as :rc-1.0.0
+    needs: changes
+    if: fromJSON(needs.changes.outputs.changes).jupyterhub-container == 'true'
+    uses: SwanseaUniversityMedical/workflows/.github/workflows/on-release-container.yaml@v4.3.0
+    with:
+      job-name: jupyterhub-container
+      container-registry: ${{ vars.HARBOR_REGISTRY }}
+      container-registry-user: ${{ vars.HARBOR_USER }}
+      container-registry-project: ${{ vars.HARBOR_PROJECT }}
+      container-registry-repo: jupyterhub
+      release-tag-format: 'DARE-Jupyterhub-Container-${version}'
+      slack-channel: ${{ vars.SLACK_CHANNEL }}
+      build-command: |
+        sudo apt update &&
+        sudo apt install python3.8-venv &&
+        python -m pip install --user --upgrade build &&
+        python -m build --outdir ./dist ./containers/custom-packages/jupyter-cloudbeaver-proxy &&
+        python -m build --outdir ./dist ./containers/custom-packages/jupyter-rsession-proxy &&
+        docker build -t $IMAGE -f containers/jupyterhub/Dockerfile .
+    secrets:
+      container-registry-token: ${{ secrets.HARBOR_TOKEN }}
+      slack-token: ${{ secrets.SLACK_TOKEN }}
 
   chart:
     # Build the chart and push it as x.y.z-rc
@@ -78,7 +100,7 @@ jobs:
       chart-registry-repo: ${{ vars.HARBOR_REPO }}
       release-tag-format: 'DARE-Jupyter-Helm-${version}'
       slack-channel: ${{ vars.SLACK_CHANNEL }}
-      chart: charts/**
+      chart: charts/jupyter
       test-command: |
         helm template $CHART --values charts/jupyter/values.yaml
     secrets:
