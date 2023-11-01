@@ -48,6 +48,7 @@ jobs:
       container-registry-project: ${{ vars.HARBOR_PROJECT }}
       container-registry-repo: jupyter
       release-tag-format: 'DARE-Jupyter-Container-${version}'
+      cosign-public-key: ${{ vars.COSIGN_PUBLIC_KEY }}
       slack-channel: ${{ vars.SLACK_CHANNEL }}
       build-command: |
         sudo apt update &&
@@ -57,6 +58,8 @@ jobs:
         python -m build --outdir ./dist ./containers/custom-packages/jupyter-rsession-proxy &&
         docker build -t $IMAGE -f containers/jupyterlab/standard.Dockerfile .
     secrets:
+      cosign-private-key: ${{ secrets.COSIGN_PRIVATE_KEY }}
+      cosign-password: ${{ secrets.COSIGN_PASSWORD }}
       container-registry-token: ${{ secrets.HARBOR_TOKEN }}
       slack-token: ${{ secrets.SLACK_TOKEN }}
 
@@ -72,6 +75,7 @@ jobs:
       container-registry-project: ${{ vars.HARBOR_PROJECT }}
       container-registry-repo: jupyterhub
       release-tag-format: 'DARE-Jupyterhub-Container-${version}'
+      cosign-public-key: ${{ vars.COSIGN_PUBLIC_KEY }}
       slack-channel: ${{ vars.SLACK_CHANNEL }}
       build-command: |
         sudo apt update &&
@@ -81,5 +85,7 @@ jobs:
         python -m build --outdir ./dist ./containers/custom-packages/jupyter-rsession-proxy &&
         docker build -t $IMAGE -f containers/jupyterhub/Dockerfile .
     secrets:
+      cosign-private-key: ${{ secrets.COSIGN_PRIVATE_KEY }}
+      cosign-password: ${{ secrets.COSIGN_PASSWORD }}
       container-registry-token: ${{ secrets.HARBOR_TOKEN }}
       slack-token: ${{ secrets.SLACK_TOKEN }}
