@@ -18,7 +18,7 @@ jobs:
 
   changes:
     # Detect which files have been changed on this PR's full history
-    uses: SwanseaUniversityMedical/workflows/.github/workflows/changes-release.yaml@v4.3.0
+    uses: SwanseaUniversityMedical/workflows/.github/workflows/changes-release.yaml@v5.1.2
     with:
       slack-channel: ${{ vars.SLACK_CHANNEL }}
       filters: |
@@ -40,7 +40,7 @@ jobs:
     # Build the DARE Jupyter container and push it as :rc-1.0.0
     needs: changes
     if: fromJSON(needs.changes.outputs.changes).jupyter-container == 'true'
-    uses: SwanseaUniversityMedical/workflows/.github/workflows/on-release-container.yaml@v4.3.0
+    uses: SwanseaUniversityMedical/workflows/.github/workflows/on-release-container.yaml@v5.1.2
     with:
       job-name: jupyter-container
       container-registry: ${{ vars.HARBOR_REGISTRY }}
@@ -67,7 +67,7 @@ jobs:
     # Build the DARE Jupyter container and push it as :rc-1.0.0
     needs: changes
     if: fromJSON(needs.changes.outputs.changes).jupyterhub-container == 'true'
-    uses: SwanseaUniversityMedical/workflows/.github/workflows/on-release-container.yaml@v4.3.0
+    uses: SwanseaUniversityMedical/workflows/.github/workflows/on-release-container.yaml@v5.1.2
     with:
       job-name: jupyterhub-container
       container-registry: ${{ vars.HARBOR_REGISTRY }}
