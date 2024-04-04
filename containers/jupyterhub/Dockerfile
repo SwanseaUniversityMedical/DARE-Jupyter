@@ -1,4 +1,4 @@
-FROM jupyterhub/jupyterhub:4.0.0
+FROM jupyterhub/jupyterhub:4.1.5
 
 LABEL org.opencontainers.image.source=https://github.com/SwanseaUniversityMedical/DARE-Jupyter
 
