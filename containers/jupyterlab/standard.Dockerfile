@@ -49,6 +49,18 @@ RUN apt-get update && apt-get install -yq \
         gcc && \
     ln -s /opt/conda/bin/R /usr/local/bin/R 
 
+# Build custom proxy packages in-image (previously done in CI before docker build)
+COPY containers/custom-packages/jupyter-cloudbeaver-proxy /tmp/build/jupyter-cloudbeaver-proxy
+COPY containers/custom-packages/jupyter-rsession-proxy /tmp/build/jupyter-rsession-proxy
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends python3-venv && \
+    pip install --upgrade build && \
+    python -m build --outdir /tmp/build/dist /tmp/build/jupyter-cloudbeaver-proxy && \
+    python -m build --outdir /tmp/build/dist /tmp/build/jupyter-rsession-proxy && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 ###################
 ### CLOUDBEAVER ###
 ###################
@@ -126,10 +138,9 @@ RUN conda install --yes -n base conda-libmamba-solver=23.7.0 && \
     jupyter labextension install plotlywidget luxwidget
 
 # CONDA BASE ADDITIONS, CUSTOM PACKAGES
-COPY dist/*.whl .
 COPY containers/custom-packages/themes/*.whl .
-RUN pip install jupyter_cloudbeaver_proxy-0.1-py3-none-any.whl --no-cache-dir && \
-    pip install jupyter_rsession_proxy-2.2.0-py3-none-any.whl --no-cache-dir && \
+RUN pip install /tmp/build/dist/jupyter_cloudbeaver_proxy-*.whl --no-cache-dir && \
+    pip install /tmp/build/dist/jupyter_rsession_proxy-*.whl --no-cache-dir && \
     pip install base16_gruvbox_dark-1.0.0-py3-none-any.whl --no-cache-dir && \
     pip install base16_gruvbox_light-1.0.0-py3-none-any.whl --no-cache-dir && \
     pip install base16_mexico_light-1.0.0-py3-none-any.whl --no-cache-dir && \
@@ -141,7 +152,8 @@ RUN pip install jupyter_cloudbeaver_proxy-0.1-py3-none-any.whl --no-cache-dir &&
     pip install base16_solarized_light-1.0.0-py3-none-any.whl --no-cache-dir && \
     pip install base16_summerfruit_light-1.0.0-py3-none-any.whl --no-cache-dir && \
     pip install city_lights-1.0.0-py3-none-any.whl --no-cache-dir && \
-    rm *.whl
+    rm *.whl && \
+    rm -rf /tmp/build
 
 # JUPYTERLAB AND VSCODE EXTENSIONS
 WORKDIR /tmp/install/scripts/
