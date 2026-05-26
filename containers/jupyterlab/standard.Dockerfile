@@ -59,7 +59,8 @@ RUN apt-get update && \
     python -m build --outdir /tmp/build/dist /tmp/build/jupyter-cloudbeaver-proxy && \
     python -m build --outdir /tmp/build/dist /tmp/build/jupyter-rsession-proxy && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    chown -R $NB_USER: /opt/conda
 
 ###################
 ### CLOUDBEAVER ###
