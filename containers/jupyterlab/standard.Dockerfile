@@ -87,16 +87,9 @@ RUN chmod +x /opt/cloudbeaver/run-server.sh && \
 ###############
 ### RSTUDIO ###
 ###############
-RUN set -eux; \
-    for url in \
-        "http://security.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.1_1.1.1w-0+deb11u3_amd64.deb" \
-        "http://deb.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.1_1.1.1w-0+deb11u3_amd64.deb" \
-        "http://archive.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.1_1.1.1w-0+deb11u3_amd64.deb"; do \
-        wget -O /tmp/libssl1.1.deb "$url" && break || true; \
-    done; \
-    test -s /tmp/libssl1.1.deb; \
-    dpkg -i /tmp/libssl1.1.deb; \
-    rm -f /tmp/libssl1.1.deb
+RUN wget http://deb.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.1_1.1.1w-0+deb11u5_amd64.deb && \
+    dpkg -i libssl1.1_1.1.1w-0+deb11u5_amd64.deb && \
+    rm libssl1.1_1.1.1w-0+deb11u5_amd64.deb
 
 RUN apt-get --fix-broken install
 
